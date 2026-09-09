@@ -57,6 +57,8 @@ reachable straight from NOXMFD's MFD. A change there writes directly into Vanill
 `ConfigEntry`, so its own live-apply logic (and this bridge's own mirroring above) fires exactly as
 if the pilot had used its F1/F9 menu.
 
+![VANILLA ICONS PLUS settings page, showing the HUD, HUD Unit Icons, and MAP sections](images/VIP_SETTINGS.png)
+
 ## What's here
 
 - `src/plugin/Plugin.cs` — registers the AA/Special AA color mirror, spawns the polling worker,
