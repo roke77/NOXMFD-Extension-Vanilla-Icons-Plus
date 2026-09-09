@@ -1,0 +1,118 @@
+/* VANILLA ICONS PLUS settings page. Panel/section shape follows the same lineage as NOXMFD's own
+   MAP CFG / TGP CFG pages (mapcfg.css/tgpcfg.css) — .vip-toggle mirrors tgpcfg.css's .tcfg-toggle
+   button-style toggle verbatim, and .vip-slider mirrors mapcfg.css's range-input styling. */
+html, body { overflow: auto; }   /* the theme hides overflow for MFD panes; this is a full page */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--no-gray) transparent;
+}
+html::-webkit-scrollbar { width: 6px; height: 6px; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb { background: var(--no-gray); border-radius: 3px; }
+
+.vip-panel {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 22px 18px 40px;
+}
+
+.vip-empty { margin-top: 20vh; }
+
+.vip-section { margin-bottom: 22px; }
+
+.vip-h {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--no-green-dim);
+  border-bottom: 1px solid var(--no-panel-border);
+  padding-bottom: 6px;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+}
+
+.vip-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--no-panel-border);
+}
+.vip-row:last-child { border-bottom: none; }
+
+.vip-label {
+  flex: 1;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  color: var(--no-green);
+}
+
+/* Button-style toggle (tgpcfg.css's .tcfg-toggle) — a real <button>, not a checkbox, so it reads
+   as both "toggle" and "control" the same way the rest of NOXMFD's settings pages do. */
+.vip-toggle {
+  flex: none;
+  min-width: 72px;
+  padding: 8px 12px;
+  border: 1px solid var(--no-green-dim);
+  background: none;
+  color: var(--no-green-dim);
+  font-family: var(--no-font);
+  font-size: 11px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.vip-toggle:hover { border-color: var(--no-green); color: var(--no-green); }
+.vip-toggle.on {
+  border-color: var(--no-green);
+  color: var(--no-panel-bg);
+  background: var(--no-green);
+}
+.vip-toggle.on:hover { color: var(--no-panel-bg); }
+
+.vip-color {
+  flex: none;
+  width: 44px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--no-green-dim);
+  background: none;
+  cursor: pointer;
+}
+.vip-color:hover { border-color: var(--no-green); }
+
+.vip-row-slider { flex-wrap: wrap; }
+.vip-slider {
+  flex: 1 1 100%;
+  order: 2;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 2px;
+  background: var(--no-green-dark);
+  outline: none;
+  margin: 4px 0 0;
+}
+.vip-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--no-green);
+  background: var(--no-panel-bg);
+  cursor: pointer;
+}
+.vip-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--no-green);
+  background: var(--no-panel-bg);
+  cursor: pointer;
+}
+
+.vip-num {
+  flex: none;
+  min-width: 48px;
+  text-align: right;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: var(--no-amber);
+}

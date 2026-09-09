@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>NO XMFD — VANILLA ICONS PLUS</title>
+<!--
+  VANILLA ICONS PLUS settings page, served by this extension's own PageAssets.Resolve at
+  /ext/vanilla-icons-plus (NOXMFD's generic per-extension route, docs/extensions-api.md). Mirrors
+  every ConfigEntry VanillaIconsPLUS exposes through BepInEx.ConfigurationManager's own F1/F9 menu
+  (SettingsBridge.cs is the authoritative list) so a pilot can recolor/toggle it without leaving
+  NOXMFD's MFD.
+
+  GET  /ext/vanilla-icons-plus/state.json — current values, { "<setting key>": <value>, ... }.
+  POST /ext/vanilla-icons-plus/command    — { key, boolValue?, numberValue?, hexValue? }, this
+                                             extension's own shape (not NOXMFD's CommandEnvelope).
+
+  Every .vip-row below carries data-key (the exact BepInEx config key) and data-kind
+  (bool|int|float|color) — vanilla-icons-plus.js is entirely generic over these, so a control's
+  markup here is the only place a setting is named.
+-->
+<link rel="stylesheet" href="/assets/shared/font.css">
+<link rel="stylesheet" href="/assets/shared/theme.css">
+<link rel="stylesheet" href="/ext/vanilla-icons-plus/vanilla-icons-plus.css">
+</head>
+<body>
+  <div class="vip-panel" id="vip-panel">
+    <div class="vip-empty mfd-empty" id="vip-empty">
+      <span class="mfd-empty-title">VANILLA ICONS PLUS</span><span>— NOT INSTALLED —</span>
+    </div>
+
+    <div class="vip-scroll" id="vip-scroll" hidden>
+      <section class="vip-section">
+        <h2 class="vip-h">HUD</h2>
+        <div class="vip-row" data-key="Show Player Names" data-kind="bool">
+          <span class="vip-label">Show Player Names</span>
+          <button class="vip-toggle" type="button">OFF</button>
+        </div>
+        <div class="vip-row" data-key="Disable Vanilla Friendly Hover Names" data-kind="bool">
+          <span class="vip-label">Disable Vanilla Friendly Hover Names</span>
+          <button class="vip-toggle" type="button">OFF</button>
+        </div>
+        <div class="vip-row" data-key="Friendly Player Names" data-kind="color">
+          <span class="vip-label">Friendly Player Names</span>
+          <input class="vip-color" type="color">
+        </div>
+        <div class="vip-row" data-key="Enemy Player Names" data-kind="color">
+          <span class="vip-label">Enemy Player Names</span>
+          <input class="vip-color" type="color">
+        </div>
+        <div class="vip-row vip-row-slider" data-key="HUD Player Name Font Size" data-kind="int">
+          <span class="vip-label">HUD Player Name Font Size</span>
+          <input class="vip-slider" type="range" min="8" max="40" step="1">
+          <span class="vip-num"></span>
+        </div>
+        <div class="vip-row vip-row-slider" data-key="HUD Player Name Vertical Offset" data-kind="float">
+          <span class="vip-label">HUD Player Name Vertical Offset</span>
+          <input class="vip-slider" type="range" min="-20" max="80" step="0.5">
+          <span class="vip-num"></span>
+        </div>
+      </section>
+
+      <section class="vip-section">
+        <h2 class="vip-h">HUD Unit Icons</h2>
+        <div class="vip-row" data-key="Friendly Units" data-kind="color">
+          <span class="vip-label">Friendly Units</span>
+          <input class="vip-color" type="color">
+        </div>
+        <div class="vip-row" data-key="Enemy Units" data-kind="color">
+          <span class="vip-label">Enemy Units</span>
+          <input class="vip-color" type="color">
+        </div>
+        <div class="vip-row" data-key="Neutral Units" data-kind="color">
+          <span class="vip-label">Neutral Units</span>
+          <input class="vip-color" type="color">
+        </div>
+        <div class="vip-row" data-key="Enemy AA Units" data-kind="color">
+          <span class="vip-label">Enemy AA Units</span>
+          <input class="vip-color" type="color">
+        </div>
+        <div class="vip-row" data-key="Enemy AA (Special) Units" data-kind="color">
+          <span class="vip-label">Enemy AA (Special) Units</span>
+          <input class="vip-color" type="color">
+        </div>
+      </section>
+
+      <section class="vip-section">
+        <h2 class="vip-h">MAP</h2>
+        <div class="vip-row" data-key="Show Map Player Names" data-kind="bool">
+          <span class="vip-label">Show Map Player Names</span>
+          <button class="vip-toggle" type="button">OFF</button>
+        </div>
+        <div class="vip-row" data-key="Friendly Player Names (MAP)" data-kind="color">
+          <span class="vip-label">Friendly Player Names</span>
+          <input class="vip-color" type="color">
+        </div>
+        <div class="vip-row" data-key="Enemy Player Names (MAP)" data-kind="color">
+          <span class="vip-label">Enemy Player Names</span>
+          <input class="vip-color" type="color">
+        </div>
+        <div class="vip-row vip-row-slider" data-key="MAP Player Name Font Size" data-kind="int">
+          <span class="vip-label">MAP Player Name Font Size</span>
+          <input class="vip-slider" type="range" min="8" max="40" step="1">
+          <span class="vip-num"></span>
+        </div>
+        <div class="vip-row vip-row-slider" data-key="MAP Player Name Vertical Offset" data-kind="float">
+          <span class="vip-label">MAP Player Name Vertical Offset</span>
+          <input class="vip-slider" type="range" min="-20" max="40" step="0.5">
+          <span class="vip-num"></span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+<script src="/ext/vanilla-icons-plus/vanilla-icons-plus.js"></script>
+</body>
+</html>

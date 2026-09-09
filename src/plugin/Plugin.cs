@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using System.Text;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -16,18 +18,24 @@ namespace VanillaIconsPlusBridge
     // 2. VanillaIconsPLUS's enemy-only AA/Special AA unit-type tint (AAUnitsHUD/SpecialAAUnitsHUD,
     //    both public ConfigEntry<Color>) — pushed to NOXMFD.Api.SetUnitTypeColorOverride for every
     //    unit type name in AAUnitHelper's public whitelists, refreshed on SettingChanged.
+    //
+    // Also registers its own NOXMFD EXT page, "VANILLA ICONS PLUS" — a settings mirror for every
+    // ConfigEntry VanillaIconsPLUS exposes through BepInEx.ConfigurationManager's F1/F9 menu (see
+    // SettingsBridge.cs), so a pilot never has to leave NOXMFD's MFD to recolor/toggle it.
     [BepInPlugin(Guid, "NOXMFD: Vanilla Icons Plus Bridge", MyPluginInfo.PLUGIN_VERSION)]
     [BepInDependency("com.roque.NOXMFD", "0.46.0")]
     [BepInDependency("com.hellcat92.vanillaiconsplus", "1.5.5")]
     public class Plugin : BaseUnityPlugin
     {
         internal const string Guid = "com.roque.vanilla-icons-plus-bridge";
+        internal const string ExtId = "vanilla-icons-plus";
         private const int FactionEnemy = 2;   // matches NOXMFD's own faction ints (0 neutral/1 friendly/2 enemy)
 
         internal static ManualLogSource? Log;
 
         private ConfigEntry<Color>? _aaEntry;
         private ConfigEntry<Color>? _specialAaEntry;
+        private ConfigFile? _vipConfig;
 
         private void Awake()
         {
@@ -56,6 +64,7 @@ namespace VanillaIconsPlusBridge
 
             _aaEntry = vip.AAUnitsHUD;
             _specialAaEntry = vip.SpecialAAUnitsHUD;
+            _vipConfig = vip.Config;
 
             PushAaOverrides();
             _aaEntry.SettingChanged += (_, __) => PushAaOverrides();
@@ -66,14 +75,54 @@ namespace VanillaIconsPlusBridge
             // pattern NOXMFD's own Plugin.cs uses for its runtime.
             SceneManager.sceneLoaded += SpawnWorkerOnce;
 
+            bool registered = NOXMFD.Api.RegisterExtension(ExtId, "VANILLA ICONS PLUS", ResolveAsset, HandleCommand);
+            if (!registered) Logger.LogWarning($"Failed to register the '{ExtId}' EXT page — id already taken?");
+
             Logger.LogInfo("Ready — mirroring VanillaIconsPLUS colors onto NOXMFD's MAP page.");
+        }
+
+        // NOXMFD calls this on an HTTP worker (docs/extensions-api.md) — state.json's read is a
+        // plain ConfigFile lookup (SettingsBridge.StateJson's own comment), safe off the main
+        // thread; everything else falls through to the embedded page/CSS/JS.
+        private byte[]? ResolveAsset(string relPath)
+        {
+            if (relPath == "state.json")
+            {
+                string json = _vipConfig != null ? SettingsBridge.StateJson(_vipConfig) : "{}";
+                return Encoding.UTF8.GetBytes(json);
+            }
+            return PageAssets.Resolve(relPath);
+        }
+
+        [Serializable]
+        private class SettingCommand
+        {
+            public string key = "";
+            public bool boolValue;
+            public float numberValue;
+            public string hexValue = "";
+        }
+
+        // NOXMFD guarantees this runs on the Unity main thread (docs/extensions-api.md) — required
+        // here since SettingsBridge.Apply's color path can trigger VanillaIconsPLUS's own
+        // SettingChanged handlers, which touch Unity scene state (ApplyHUDTints/RefreshMapIcons).
+        private void HandleCommand(string json)
+        {
+            if (_vipConfig == null) return;
+            SettingCommand? cmd;
+            try { cmd = JsonUtility.FromJson<SettingCommand>(json); }
+            catch (Exception ex) { Logger.LogWarning($"Malformed settings command: {ex.Message}"); return; }
+            if (cmd == null || string.IsNullOrEmpty(cmd.key)) return;
+
+            if (!SettingsBridge.Apply(_vipConfig, cmd.key, cmd.boolValue, cmd.numberValue, cmd.hexValue))
+                Logger.LogWarning($"Unknown VanillaIconsPLUS setting: '{cmd.key}'.");
         }
 
         private static void SpawnWorkerOnce(Scene scene, LoadSceneMode mode)
         {
             SceneManager.sceneLoaded -= SpawnWorkerOnce;
             var go = new GameObject("VanillaIconsPlusBridgeWorker");
-            Object.DontDestroyOnLoad(go);
+            UnityEngine.Object.DontDestroyOnLoad(go);
             go.AddComponent<Worker>();
         }
 

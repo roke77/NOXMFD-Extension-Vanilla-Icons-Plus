@@ -39,6 +39,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- The VANILLA ICONS PLUS EXT page's own HTML/CSS/JS, baked into the DLL and served through
+         PageAssets.cs — same pattern NOXMFD's own pages and the example extension use. -->
+    <EmbeddedResource Include="src\web\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BepInEx.Core" Version="5.4.21" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0" />
     <PackageReference Include="UnityEngine.Modules" Version="2022.3.6" IncludeAssets="compile" />
