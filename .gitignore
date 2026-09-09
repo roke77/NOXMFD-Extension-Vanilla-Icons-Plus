@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+*.user
+
+# Local machine-specific game path override (see VanillaIconsPlusBridge.csproj)
+GameDir.props
+
+# Third-party mod DLL, needed locally to build against but not this repo's to redistribute —
+# copy your own installed BepInEx/plugins/Com.Hellcat92.VanillaIconsPLUS/*.dll here and rename it.
+# lib/NOXMFD.dll is NOT excluded: that one is this project's own dependency, freely redistributable.
+lib/VanillaIconsPLUS.dll
