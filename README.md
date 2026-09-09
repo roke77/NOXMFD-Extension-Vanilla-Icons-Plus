@@ -18,11 +18,7 @@ see NOXMFD's [`EXTENSIONS.md`](https://github.com/roke77/NOXMFD/blob/main/EXTENS
 This repo does **not** modify NOXMFD's or VanillaIconsPLUS's source.
 
 > [!IMPORTANT]
-> **Install order:** BepInEx 5 → [NO-VanillaIconsPLUS](https://github.com/xHellcat92x/NO-VanillaIconsPLUS) → [NOXMFD](https://github.com/roke77/NOXMFD) (≥ 0.46.0*) → **`NOXMFD.VanillaIconsPlusBridge.dll`**.
->
-> \* 0.46.0 is a placeholder — the icon-color-override API this bridge depends on hasn't shipped
-> in a NOXMFD release yet at the time of writing. Update the version pinned in
-> [`src/plugin/Plugin.cs`](src/plugin/Plugin.cs)'s `BepInDependency` and this README once it does.
+> **Install order:** BepInEx 5 → [NO-VanillaIconsPLUS](https://github.com/xHellcat92x/NO-VanillaIconsPLUS) → [NOXMFD](https://github.com/roke77/NOXMFD) ([≥ 0.46.0](https://github.com/roke77/NOXMFD/releases/tag/0.46.0), for its icon-color-override API) → **`NOXMFD.VanillaIconsPlusBridge.dll`**.
 
 ---
 
