@@ -1,3 +1,4 @@
+using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -39,7 +40,14 @@ namespace VanillaIconsPlusBridge
             // here regardless of what happens to it afterward. ConfigEntry<T> is a plain C# object,
             // not a UnityEngine.Object, so holding onto these two references survives that
             // transition even though the component they came from may not.
-            var vip = FindObjectOfType<VanillaIconsPLUS.Plugin>();
+            //
+            // Resources.FindObjectsOfTypeAll, not the plain FindObjectOfType: BepInEx's shared
+            // manager GameObject (which hosts every plugin's component, this one included) is
+            // created with HideFlags.HideAndDontSave, and FindObjectOfType silently excludes
+            // hidden objects — confirmed by this exact call returning null even right after
+            // VanillaIconsPLUS's own Awake had already run. VanillaIconsPLUS's own ApplyHUDTints
+            // hits the same thing for GameAssets and works around it the same way.
+            var vip = Resources.FindObjectsOfTypeAll<VanillaIconsPLUS.Plugin>().FirstOrDefault();
             if (vip == null)
             {
                 Logger.LogWarning("VanillaIconsPLUS component not found at Awake — nothing to mirror this session.");
