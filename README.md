@@ -13,8 +13,7 @@ PLUS** page under NOXMFD's EXT nav mirroring every setting from VanillaIconsPLUS
 ConfigurationManager (F1/F9) menu, so a pilot can toggle/recolor it without leaving the MFD.
 
 Built entirely through NOXMFD's public extension API (`NOXMFD.Api`'s icon-color-override surface —
-see NOXMFD's [`EXTENSIONS.md`](https://github.com/roke77/NOXMFD/blob/main/EXTENSIONS.md) and
-[`docs/vanilla-icons-plus-extension.md`](https://github.com/roke77/NOXMFD/blob/main/docs/vanilla-icons-plus-extension.md)).
+see NOXMFD's [`EXTENSIONS.md`](https://github.com/roke77/NOXMFD/blob/main/EXTENSIONS.md)).
 This repo does **not** modify NOXMFD's or VanillaIconsPLUS's source.
 
 > [!IMPORTANT]
