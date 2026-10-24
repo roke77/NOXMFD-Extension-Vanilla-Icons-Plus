@@ -25,7 +25,6 @@ This repo does **not** modify NOXMFD's or VanillaIconsPLUS's source.
 ## Table of contents
 
 - [What it does](#what-it-does)
-- [What's here](#whats-here)
 - [Configuration](#configuration)
 - [Building](#building)
 - [Installing](#installing)
@@ -55,25 +54,6 @@ if the pilot had used its F1/F9 menu.
 
 ![VANILLA ICONS PLUS settings page, showing the HUD, HUD Unit Icons, and MAP sections](images/VIP_SETTINGS.png)
 
-## What's here
-
-- `src/plugin/Plugin.cs` — registers the AA/Special AA color mirror, spawns the polling worker,
-  and registers the VANILLA ICONS PLUS EXT page (asset resolver + command handler).
-- `src/plugin/Worker.cs` — the persistent, `DontDestroyOnLoad` component that polls the base
-  faction tints (see its header comment for why this can't just be an event subscription).
-- `src/plugin/SettingsBridge.cs` — the full list of VanillaIconsPLUS's sixteen settings (key +
-  type) and the read/write logic against its `ConfigFile`, used by both the page's state endpoint
-  and its command handler.
-- `src/plugin/PageAssets.cs` — embedded-resource lookup for `src/web/`'s HTML/CSS/JS.
-- `src/web/vanilla-icons-plus.{html,css,js}` — the EXT page itself. Entirely generic over each
-  setting's `data-key`/`data-kind` markup; the JS never names a setting.
-- `lib/NOXMFD.dll` — compile-time reference only, not shipped to players (NOXMFD is already
-  installed as its own plugin; `Private=false` in the `.csproj` keeps this project from bundling a
-  second copy). Committed to this repo since it's this project's own dependency.
-- `lib/VanillaIconsPLUS.dll` — same compile-time-only role, but gitignored: it's a third-party
-  mod's binary, not this repo's to redistribute. See [Building](#building) for how to supply it
-  yourself.
-
 ## Configuration
 
 None of its own for the color-mirroring — recolor unit icons through VanillaIconsPLUS's own
@@ -84,8 +64,8 @@ in the other two.
 ## Building
 
 Requires a local Nuclear Option install with BepInEx 5, NOXMFD, and VanillaIconsPLUS already
-installed. `lib/NOXMFD.dll` is already committed; `lib/VanillaIconsPLUS.dll` is not (see
-[What's here](#whats-here)) — copy it in yourself before building:
+installed. `lib/NOXMFD.dll` is already committed; `lib/VanillaIconsPLUS.dll` is not (it's a third-party
+mod's binary, not this repo's to redistribute) — copy it in yourself before building:
 
 ```bash
 cp "<your game install>/BepInEx/plugins/Com.Hellcat92.VanillaIconsPLUS/Com.Hellcat92.VanillaIconsPLUS_<version>.dll" lib/VanillaIconsPLUS.dll
